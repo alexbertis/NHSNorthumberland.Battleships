@@ -7,6 +7,8 @@
         private IEnumerable<ShipModel> _ships;
         private IEnumerable<GridPosition> _userStrikes;
 
+        public IEnumerable<GridPosition> UserStrikes { get => _userStrikes; }
+
         public BattleshipsGridModel(int width, int height)
         {
             this.width = width;
@@ -17,6 +19,7 @@
 
         public bool AddShip(ShipModel ship)
         {
+            // TODO: bounds checks
             foreach (var existingShip in _ships)
             {
                 // TODO: Check collisions with existing ships
@@ -28,6 +31,7 @@
 
         public CellStrikeEnum StrikePosition(GridPosition position)
         {
+            // TODO: bounds checks
             // TODO: check position has not been hit yet; check presence of ships. Use early returns
             _userStrikes.Append(position);
             return CellStrikeEnum.None;

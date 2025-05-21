@@ -2,6 +2,13 @@
 {
     internal class ShipModel
     {
+        public ShipModel(ShipTypeEnum shipType, GridPosition position, OrientationEnum orientation)
+        {
+            ShipType = shipType;
+            Position = position;
+            Orientation = orientation;
+        }
+
         /// <summary>
         /// The type of ship this object is.
         /// </summary>

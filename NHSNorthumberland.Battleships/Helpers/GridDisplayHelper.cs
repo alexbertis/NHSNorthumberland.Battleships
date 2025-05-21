@@ -1,4 +1,6 @@
-﻿using NHSNorthumberland.Battleships.Models;
+﻿using NHSNorthumberland.Battleships.Extensions;
+using NHSNorthumberland.Battleships.Models;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace NHSNorthumberland.Battleships.Helpers
@@ -19,24 +21,24 @@ namespace NHSNorthumberland.Battleships.Helpers
             {
                 // Print a row and a divider
                 PrintHorizontalDivider(width, sb);
-                var rowArray = GetRow(cellStrikeGrid, row);
+                var rowArray = GetRow(cellStrikeGrid, row).Select(element => element.GetAttributeOfType<DisplayAttribute>().Name);
                 PrintRow(sb, row, rowArray);
             }
 
             return sb.ToString();
         }
 
-        private static void PrintRow(StringBuilder sb, int row, CellStrikeEnum[] rowArray)
+        private static void PrintRow(StringBuilder sb, int row, IEnumerable<string> rowArray)
         {
-            sb.AppendLine($"{rowLetters[row]}\t| {string.Join(" | ", rowArray)}");
+            sb.AppendLine($"{rowLetters[row],3} |  {string.Join("  |  ", rowArray)}");
         }
 
         private static void PrintGridHeader(int width, StringBuilder sb)
         {
-            sb.Append($"\t|");
+            sb.Append("    ");
             for (int col = 0; col < width; col++)
             {
-                sb.Append($" {col + 1} ");
+                sb.Append($"| {col + 1, 3} ");
             }
             sb.AppendLine();
         }
@@ -46,7 +48,7 @@ namespace NHSNorthumberland.Battleships.Helpers
             sb.Append("----");
             for (int col = 0; col < width; col++)
             {
-                sb.Append("+---");
+                sb.Append("+-----");
             }
             sb.AppendLine();
         }
