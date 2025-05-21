@@ -1,4 +1,6 @@
-﻿namespace NHSNorthumberland.Battleships.Models
+﻿using NHSNorthumberland.Battleships.Extensions;
+
+namespace NHSNorthumberland.Battleships.Models
 {
     internal enum ShipTypeEnum
     {
@@ -18,8 +20,12 @@
         public int ShipLength { get; } = shipLength;
     }
 
-    public static class ShipEnumExtensions
+    internal static class ShipEnumExtensions
     {
-
+        public static int GetShipLengthAttribute(this ShipTypeEnum enumValue)
+        {
+            var attribute = enumValue.GetAttributeOfType<ShipLengthAttribute>();
+            return attribute == null ? 0 : attribute.ShipLength;
+        }
     }
 }

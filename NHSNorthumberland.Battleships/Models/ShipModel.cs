@@ -7,6 +7,8 @@
         /// </summary>
         public ShipTypeEnum ShipType { get; set; }
 
+        public int ShipLength { get => ShipType.GetShipLengthAttribute(); }
+
         /// <summary>
         /// The location of the ship, expressed as a pair of integers describing the index of the top-left extreme of the ship.
         /// </summary>
