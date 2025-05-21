@@ -59,5 +59,13 @@ namespace NHSNorthumberland.Battleships.Helpers
                     .Select(x => matrix[rowNumber, x])
                     .ToArray();
         }
+
+
+        public static GridPosition ParseCoordinates(string coordinates)
+        {
+            var row = rowLetters.IndexOf(coordinates[0]);
+            var col = int.Parse(coordinates.Substring(1)) - 1;
+            return new GridPosition(col, row);
+        }
     }
 }
