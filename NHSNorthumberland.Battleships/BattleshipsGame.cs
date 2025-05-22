@@ -24,8 +24,7 @@ namespace NHSNorthumberland.Battleships
 
             Console.WriteLine("Welcome to the Battleships game. ");
             Console.WriteLine();
-
-            Console.WriteLine(GridDisplayHelper.CreateConsoleDisplayFromGrid(EnemyShipsGrid.GetHitGrid()));
+            PrintGridToConsole();
 
             while (true)
             {
@@ -39,6 +38,9 @@ namespace NHSNorthumberland.Battleships
             Console.WriteLine("Please enter the coordinates for the next strike (for example, C7):");
             string? input = Console.ReadLine();
             var coords = GridDisplayHelper.ParseCoordinates(input);
+            EnemyShipsGrid.StrikePosition(coords);
+            
+            PrintGridToConsole();
         }
 
 
@@ -61,6 +63,13 @@ namespace NHSNorthumberland.Battleships
                 OrientationEnum orientation = rand.NextDouble() >= 0.5 ? OrientationEnum.Horizontal : OrientationEnum.Vertical;
                 destroyersAdded += EnemyShipsGrid.AddShip(new ShipModel(ShipTypeEnum.Destroyer, (positionX, positionY), orientation)) ? 1 : 0;
             }
+        }
+
+        private void PrintGridToConsole()
+        {
+            Console.WriteLine();
+            Console.WriteLine(GridDisplayHelper.CreateConsoleDisplayFromGrid(EnemyShipsGrid.GetHitGrid()));
+            Console.WriteLine();
         }
     }
 }

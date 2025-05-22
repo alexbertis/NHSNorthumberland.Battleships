@@ -1,6 +1,6 @@
 ﻿namespace NHSNorthumberland.Battleships.Models
 {
-    internal enum OrientationEnum
+    public enum OrientationEnum
     {
         Horizontal,
         Vertical

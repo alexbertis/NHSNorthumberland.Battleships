@@ -2,7 +2,7 @@
 
 namespace NHSNorthumberland.Battleships.Models
 {
-    internal enum ShipTypeEnum
+    public enum ShipTypeEnum
     {
         [ShipLength(5)]
         Battleship,
@@ -20,7 +20,7 @@ namespace NHSNorthumberland.Battleships.Models
         public int ShipLength { get; } = shipLength;
     }
 
-    internal static class ShipEnumExtensions
+    public static class ShipEnumExtensions
     {
         public static int GetShipLengthAttribute(this ShipTypeEnum enumValue)
         {
