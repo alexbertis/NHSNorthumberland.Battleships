@@ -37,10 +37,27 @@ namespace NHSNorthumberland.Battleships
             Console.WriteLine();
             Console.WriteLine("Please enter the coordinates for the next strike (for example, C7):");
             string? input = Console.ReadLine();
-            var coords = GridDisplayHelper.ParseCoordinates(input);
-            EnemyShipsGrid.StrikePosition(coords);
-            
+            var coords = GridDisplayHelper.ParseCoordinates(input.ToUpper());
+            var (hit, strikeType) = EnemyShipsGrid.StrikePosition(coords);
+            if (!hit)
+            {
+                Console.WriteLine(new String('=', 10));
+                Console.WriteLine("ERROR! Please verify that you have not already hit that coordinate, and that it is within the grid bounds.");
+                return;
+            }
+
             PrintGridToConsole();
+
+            if (strikeType == CellStrikeEnum.ShipHit)
+            {
+                Console.WriteLine();
+                Console.WriteLine("You have hit a ship!");
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("Water");
+            }
         }
 
 

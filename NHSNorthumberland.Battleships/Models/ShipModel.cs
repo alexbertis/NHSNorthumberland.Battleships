@@ -17,6 +17,8 @@ namespace NHSNorthumberland.Battleships.Models
 
         public int ShipLength { get => ShipType.GetShipLengthAttribute(); }
 
+        public int ShipHitCount { get; set; }
+
         /// <summary>
         /// The location of the ship, expressed as a pair of integers describing the index of the top-left extreme of the ship.
         /// </summary>
@@ -59,12 +61,12 @@ namespace NHSNorthumberland.Battleships.Models
                 {
                     // If both are horizontal, they collide if they are on the same row and they overlap
                     return thisMinY == otherMinY
-                        && (StartPointWithinBounds(thisMinX, otherMinX, otherMaxX) || StartPointWithinBounds(otherMinX, thisMinX, thisMaxX));
+                        && (PointWithinBounds(thisMinX, otherMinX, otherMaxX) || PointWithinBounds(otherMinX, thisMinX, thisMaxX));
                 } else
                 {
                     // If both are vertical, they collide if they are on the same column and they overlap
                     return thisMinX == otherMinX
-                        && (StartPointWithinBounds(thisMinY, otherMinY, otherMaxY) || StartPointWithinBounds(otherMinY, thisMinY, thisMaxY));
+                        && (PointWithinBounds(thisMinY, otherMinY, otherMaxY) || PointWithinBounds(otherMinY, thisMinY, thisMaxY));
                 }
             } else
             {
@@ -79,15 +81,15 @@ namespace NHSNorthumberland.Battleships.Models
             }
         }
 
-        private static bool StartPointWithinBounds(int startCoord, int otherShipStart, int otherShipEnd)
+        public static bool PointWithinBounds(int pointCoord, int otherShipStart, int otherShipEnd)
         {
-            return startCoord >= otherShipStart && startCoord <= otherShipEnd;
+            return pointCoord >= otherShipStart && pointCoord <= otherShipEnd;
         }
 
         private static bool Crosses(ShipModel horizontal, ShipModel vertical)
         {
-            return StartPointWithinBounds(vertical.Position.xCoordinate, horizontal.Position.xCoordinate, horizontal.ComputedEndPosition.xCoordinate)
-                && StartPointWithinBounds(horizontal.Position.yCoordinate, vertical.Position.yCoordinate, vertical.ComputedEndPosition.yCoordinate);
+            return PointWithinBounds(vertical.Position.xCoordinate, horizontal.Position.xCoordinate, horizontal.ComputedEndPosition.xCoordinate)
+                && PointWithinBounds(horizontal.Position.yCoordinate, vertical.Position.yCoordinate, vertical.ComputedEndPosition.yCoordinate);
         }
     }
 }
