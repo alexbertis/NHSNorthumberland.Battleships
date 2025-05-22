@@ -2,7 +2,7 @@
 
 namespace NHSNorthumberland.Battleships.Models
 {
-    internal enum CellStrikeEnum
+    public enum CellStrikeEnum
     {
         [Display(Name = " ")]
         None,

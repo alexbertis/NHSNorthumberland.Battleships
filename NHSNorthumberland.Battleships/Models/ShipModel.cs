@@ -1,7 +1,7 @@
 ﻿
 namespace NHSNorthumberland.Battleships.Models
 {
-    internal class ShipModel
+    public class ShipModel
     {
         public ShipModel(ShipTypeEnum shipType, GridPosition position, OrientationEnum orientation)
         {
@@ -18,6 +18,8 @@ namespace NHSNorthumberland.Battleships.Models
         public int ShipLength { get => ShipType.GetShipLengthAttribute(); }
 
         public int ShipHitCount { get; set; }
+
+        public bool IsSunken { get => ShipHitCount >= ShipLength; }
 
         /// <summary>
         /// The location of the ship, expressed as a pair of integers describing the index of the top-left extreme of the ship.

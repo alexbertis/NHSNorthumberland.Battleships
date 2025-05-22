@@ -1,6 +1,6 @@
 ﻿namespace NHSNorthumberland.Battleships.Models
 {
-    internal record struct GridPosition(int xCoordinate, int yCoordinate)
+    public record struct GridPosition(int xCoordinate, int yCoordinate)
     {
         public static implicit operator (int, int)(GridPosition value)
         {

@@ -61,11 +61,15 @@ namespace NHSNorthumberland.Battleships.Helpers
         }
 
 
-        public static GridPosition ParseCoordinates(string coordinates)
+        public static GridPosition? ParseCoordinates(string coordinates)
         {
             var row = rowLetters.IndexOf(coordinates[0]);
-            var col = int.Parse(coordinates.Substring(1)) - 1;
-            return new GridPosition(col, row);
+            bool parseCorrect = int.TryParse(coordinates.Substring(1), out int col);
+            if (!parseCorrect)
+            {
+                return null;
+            }
+            return new GridPosition(col - 1, row);
         }
     }
 }

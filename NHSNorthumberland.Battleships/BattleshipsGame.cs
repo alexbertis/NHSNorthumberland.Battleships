@@ -26,10 +26,13 @@ namespace NHSNorthumberland.Battleships
             Console.WriteLine();
             PrintGridToConsole();
 
-            while (true)
+            while (EnemyShipsGrid.Ships.Any(ship => !ship.IsSunken))
             {
                 PlayRound();
             }
+            Console.WriteLine(new string('*', 30));
+            Console.WriteLine("CONGRATULATIOSN! You destroyed all the ships.");
+            Console.WriteLine(new string('*', 30));
         }
 
         private void PlayRound()
@@ -38,10 +41,16 @@ namespace NHSNorthumberland.Battleships
             Console.WriteLine("Please enter the coordinates for the next strike (for example, C7):");
             string? input = Console.ReadLine();
             var coords = GridDisplayHelper.ParseCoordinates(input.ToUpper());
-            var (hit, strikeType) = EnemyShipsGrid.StrikePosition(coords);
+            if (!coords.HasValue)
+            {
+                Console.WriteLine(new string('=', 10));
+                Console.WriteLine("ERROR! Please verify that you have entered a valid coordinate, with a letter and a number.");
+                return;
+            }
+            var (hit, strikeType, sunkenShip) = EnemyShipsGrid.StrikePosition(coords.Value);
             if (!hit)
             {
-                Console.WriteLine(new String('=', 10));
+                Console.WriteLine(new string('=', 10));
                 Console.WriteLine("ERROR! Please verify that you have not already hit that coordinate, and that it is within the grid bounds.");
                 return;
             }
@@ -52,6 +61,10 @@ namespace NHSNorthumberland.Battleships
             {
                 Console.WriteLine();
                 Console.WriteLine("You have hit a ship!");
+                if (sunkenShip != null)
+                {
+                    Console.WriteLine($"You have destroyed a {sunkenShip.ShipType}!");
+                }
             }
             else
             {

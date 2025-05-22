@@ -9,6 +9,7 @@ namespace NHSNorthumberland.Battleships.Models
         private IList<GridPosition> _userStrikes;
 
         public IEnumerable<GridPosition> UserStrikes { get => _userStrikes; }
+        public IEnumerable<ShipModel> Ships { get => _ships; }
 
         public BattleshipsGridModel(int width, int height)
         {
@@ -43,20 +44,21 @@ namespace NHSNorthumberland.Battleships.Models
             return ship.Position.xCoordinate < 0 || ship.Position.yCoordinate < 0 || ship.ComputedEndPosition.xCoordinate >= width || ship.ComputedEndPosition.yCoordinate >= height;
         }
 
-        public (bool, CellStrikeEnum) StrikePosition(GridPosition strikePosition)
+        public StrikeResult StrikePosition(GridPosition strikePosition)
         {
             // Check strike is within bounds
             if (strikePosition.xCoordinate < 0 || strikePosition.yCoordinate < 0 || strikePosition.xCoordinate >= width || strikePosition.yCoordinate >= height)
             {
-                return (false, CellStrikeEnum.None);
+                return (false, CellStrikeEnum.None, null);
             }
             // Check position has not been hit yet
             if (_userStrikes.Any(strike => strikePosition.xCoordinate == strike.xCoordinate && strikePosition.yCoordinate == strike.yCoordinate))
             {
-                return (false, CellStrikeEnum.None);
+                return (false, CellStrikeEnum.None, null);
             }
 
             bool hit = false;
+            ShipModel? sunkenShip = null;
             // Check presence of ships
             foreach (var ship in _ships)
             {
@@ -65,11 +67,15 @@ namespace NHSNorthumberland.Battleships.Models
                 if (hit)
                 {
                     ship.ShipHitCount++;
+                    if (ship.IsSunken)
+                    {
+                        sunkenShip = ship;
+                    }
                     break;
                 }
             }
             _userStrikes.Add(strikePosition);
-            return (true, hit ? CellStrikeEnum.ShipHit : CellStrikeEnum.Water);
+            return new StrikeResult(true, hit ? CellStrikeEnum.ShipHit : CellStrikeEnum.Water, sunkenShip);
         }
 
         public CellStrikeEnum[,] GetHitGrid()
